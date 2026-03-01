@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0C1510"/>
+      <stop offset="100%" style="stop-color:#050A06"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F2C14E"/>
+      <stop offset="100%" style="stop-color:#D4A017"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="192" height="192" rx="38" fill="url(#bg)"/>
+  <!-- Or accent ring -->
+  <rect width="192" height="192" rx="38" fill="none" stroke="#D4A017" stroke-width="3" stroke-opacity="0.3"/>
+  <!-- Emerald corner accents -->
+  <circle cx="24" cy="24" r="8" fill="#16A870" opacity="0.4"/>
+  <circle cx="168" cy="168" r="8" fill="#16A870" opacity="0.3"/>
+  <!-- ₣ Symbol -->
+  <text x="96" y="132" font-size="108" text-anchor="middle" fill="url(#glow)" font-family="Georgia,serif" font-weight="700">₣</text>
+  <!-- GHP text -->
+  <text x="96" y="174" font-size="18" text-anchor="middle" fill="#8FA898" font-family="Arial,sans-serif" letter-spacing="6">GHP</text>
+</svg>

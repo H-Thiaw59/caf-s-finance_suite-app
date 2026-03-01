@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#142018"/>
+      <stop offset="100%" style="stop-color:#050A06"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F2C14E"/>
+      <stop offset="60%" style="stop-color:#D4A017"/>
+      <stop offset="100%" style="stop-color:#8A6500"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="30%" cy="80%">
+      <stop offset="0%" style="stop-color:#D4A017;stop-opacity:0.12"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="80%" cy="20%">
+      <stop offset="0%" style="stop-color:#16A870;stop-opacity:0.1"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+    </radialGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <!-- Glow overlays -->
+  <rect width="512" height="512" rx="96" fill="url(#glow1)"/>
+  <rect width="512" height="512" rx="96" fill="url(#glow2)"/>
+  <!-- Border -->
+  <rect width="512" height="512" rx="96" fill="none" stroke="#D4A017" stroke-width="6" stroke-opacity="0.28"/>
+  <!-- Emerald accents -->
+  <circle cx="64" cy="64" r="22" fill="#16A870" opacity="0.35"/>
+  <circle cx="448" cy="448" r="18" fill="#16A870" opacity="0.25"/>
+  <circle cx="448" cy="64" r="12" fill="#D4A017" opacity="0.2"/>
+  <!-- Main ₣ symbol -->
+  <text x="256" y="358" font-size="290" text-anchor="middle" fill="url(#gold)" font-family="Georgia,serif" font-weight="700">₣</text>
+  <!-- Subtitle -->
+  <text x="256" y="468" font-size="42" text-anchor="middle" fill="#8FA898" font-family="Arial,sans-serif" letter-spacing="10" font-weight="400">G H P</text>
+  <!-- Top micro text -->
+  <text x="256" y="52" font-size="22" text-anchor="middle" fill="#4A5E4F" font-family="Arial,sans-serif" letter-spacing="4">CAFÉS-FINANCE</text>
+</svg>
