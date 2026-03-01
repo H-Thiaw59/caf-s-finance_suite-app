@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color"              content="#050A06">
+  <meta name="apple-mobile-web-app-capable"    content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title"      content="CAFÉS-FINANCE">
+  <meta name="description"              content="CAFÉS-FINANCE × GHP — Finance Ethnique & Solidaire — Micro-crédit · Tontines · HopeFund · HopeSkills · TINI/SYSTEME v1.0">
+  <meta name="author"                   content="Thiaw Consulting TCS · Dakar, Sénégal">
+  <meta name="robots"                   content="index, follow">
+
+  <!-- Open Graph / WhatsApp -->
+  <meta property="og:type"              content="website">
+  <meta property="og:title"             content="CAFÉS-FINANCE × GHP">
+  <meta property="og:description"       content="Finance Ethnique & Solidaire · Micro-crédit · Tontines · Emplois · TINI/SYSTEME">
+  <meta property="og:image"             content="./icons/icon-512.svg">
+  <meta property="og:locale"            content="fr_SN">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="./manifest.json">
+
+  <!-- Apple icons -->
+  <link rel="apple-touch-icon" href="./icons/icon-192.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="./icons/icon-192.svg">
+
+  <title>CAFÉS-FINANCE — TINI/SYSTEME MVP</title>
+
+  <!-- Fonts (Google Fonts · preload critique) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+
+<!-- ═══ LOADING ════════════════════════════════════════════ -->
+<div class="load-ov" id="load-ov">
+  <div class="load-logo">₣</div>
+  <div style="font-family:'DM Sans';color:var(--md);margin-top:16px;font-size:.85rem">CAFÉS-FINANCE × GHP · TINI/SYSTEME</div>
+</div>
+
+<!-- ═══ ONBOARDING ════════════════════════════════════════ -->
+<div class="ob-ov" id="ob-ov" style="display:none">
+  <div class="logo-ico" style="width:64px;height:64px;border-radius:18px;font-size:2rem;margin-bottom:16px">₣</div>
+  <div class="syne bold x3 c-or" style="letter-spacing:-.02em;margin-bottom:6px">CAFÉS-FINANCE</div>
+  <div class="md c-md" style="margin-bottom:28px">by Genius-Hope Phygital · TINI/SYSTEME v1.0</div>
+
+  <div id="ob0" class="ob-sl act">
+    <div class="ob-ico">🌍</div>
+    <div class="syne bold x2 c-hi mb8">Finance Ethnique & Solidaire</div>
+    <div class="md c-md" style="line-height:1.7">La 1ère plateforme de finance communautaire d'Afrique de l'Ouest. Tontines numériques, micro-crédit, épargne, emploi — 100% pour votre communauté.</div>
+  </div>
+  <div id="ob1" class="ob-sl">
+    <div class="ob-ico">🔐</div>
+    <div class="syne bold x2 c-hi mb8">Identité TINI Souveraine</div>
+    <div class="md c-md" style="line-height:1.7">Cryptographie Fibonacci × Euler × SHA3-512. Post-quantique. Sur des serveurs africains. Votre identité vous appartient à vie.</div>
+  </div>
+  <div id="ob2" class="ob-sl">
+    <div class="ob-ico">📱</div>
+    <div class="syne bold x2 c-hi mb8">Hors ligne · USSD <span class="mono c-em">*785#</span></div>
+    <div class="md c-md" style="line-height:1.7">Orange Money · Wave · MTN MoMo · 2G · Sans banque · Compatible avec n'importe quel téléphone.</div>
+  </div>
+
+  <div class="ob-dots">
+    <div class="ob-dot act" id="od0"></div>
+    <div class="ob-dot" id="od1"></div>
+    <div class="ob-dot" id="od2"></div>
+  </div>
+  <button class="btn btn-or btn-lg" style="width:100%;max-width:300px" onclick="OB.next()"><span id="ob-btn">Suivant →</span></button>
+  <button class="btn btn-ghost btn-sm mt8" onclick="OB.skip()">Passer</button>
+</div>
+
+<!-- ═══ OFFLINE BANNER ═══════════════════════════════════ -->
+<div class="off-banner" id="off-banner">⚡ Mode hors ligne — Données synchronisées dès connexion</div>
+
+<!-- ═══ TOPNAV ════════════════════════════════════════════ -->
+<nav class="topnav" id="topnav">
+  <div class="menu-btn" id="menu-btn" onclick="App.toggleSidebar()">☰</div>
+  <div class="logo">
+    <div class="logo-ico">₣</div>
+    <span>CAFÉS-FINANCE</span>
+  </div>
+  <div class="nav-r">
+    <div class="score-chip pointer" onclick="App.nav('profil')" title="HopeScore™">
+      <div class="score-ring">
+        <svg viewBox="0 0 28 28">
+          <circle fill="none" stroke="rgba(255,255,255,.1)" stroke-width="4" cx="14" cy="14" r="10"/>
+          <circle id="tn-ring" fill="none" stroke="var(--or2)" stroke-width="4" stroke-linecap="round" cx="14" cy="14" r="10" stroke-dasharray="62.8" stroke-dashoffset="62.8"/>
+        </svg>
+        <div class="ri" id="tn-score-n">—</div>
+      </div>
+      <span class="sm semi c-or2" id="tn-tier">—</span>
+    </div>
+    <div class="notif-btn pointer" onclick="App.openMod('mod-notif')">
+      🔔<span class="ndot" id="ndot"></span>
+    </div>
+    <div class="ava" id="topnav-ava" onclick="App.nav('profil')">?</div>
+  </div>
+</nav>
+
+<!-- ═══ SIDEBAR OVERLAY ══════════════════════════════════ -->
+<div class="sb-ov" id="sb-ov" onclick="App.closeSidebarFull()"></div>
+
+<!-- ═══ SIDEBAR ═══════════════════════════════════════════ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-sec">
+    <div class="sb-lbl">Principal</div>
+    <button class="nav-it act" data-sc="dashboard"    onclick="App.nav('dashboard')">  <span class="ico">🏠</span> Dashboard</button>
+    <button class="nav-it"     data-sc="wallet"       onclick="App.nav('wallet')">     <span class="ico">💳</span> Portefeuille</button>
+    <button class="nav-it"     data-sc="tontines"     onclick="App.nav('tontines')">   <span class="ico">👥</span> Tontines GHP</button>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Services</div>
+    <button class="nav-it"     data-sc="hopefund"     onclick="App.nav('hopefund')">   <span class="ico">💰</span> HopeFund™<span class="nav-nbg" id="nb-hf" style="display:none">1</span></button>
+    <button class="nav-it"     data-sc="simulateurs"  onclick="App.nav('simulateurs')"><span class="ico">📊</span> Simulateurs</button>
+    <button class="nav-it"     data-sc="epargne"      onclick="App.nav('epargne')">    <span class="ico">🌱</span> Épargne</button>
+    <button class="nav-it"     data-sc="assurance"    onclick="App.nav('assurance')">  <span class="ico">🛡️</span> Assurance</button>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Opportunités</div>
+    <button class="nav-it"     data-sc="hopeskills"   onclick="App.nav('hopeskills')"> <span class="ico">🎓</span> HopeSkills™</button>
+    <button class="nav-it"     data-sc="hopework"     onclick="App.nav('hopework')">   <span class="ico">💼</span> HopeWork™</button>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Système</div>
+    <button class="nav-it"     data-sc="blockchain"   onclick="App.nav('blockchain')"> <span class="ico">⛓️</span> Blockchain</button>
+    <button class="nav-it"     data-sc="profil"       onclick="App.nav('profil')">     <span class="ico">🔐</span> Identité TINI</button>
+  </div>
+  <div class="sb-bot">
+    <div class="ussd-c pointer" onclick="App.dialUSSD()">
+      <span style="font-size:1.1rem">📞</span>
+      <div>
+        <div class="ussd-code">*785#</div>
+        <div class="xs c-md">Sans internet · 2G compatible</div>
+      </div>
+    </div>
+    <div class="flex center g8 mt8">
+      <span class="xs c-dim">TINI/SYSTEME v1.0</span>
+      <span class="badge b-em xs">Phase Pilote</span>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══ MAIN CONTENT ══════════════════════════════════════ -->
+<main class="main" id="main">
+
+<!-- ──────────────── DASHBOARD ────────────────── -->
+<div class="sc act" id="sc-dashboard">
+  <div class="hero mb16" id="dash-hero">
+    <div class="flex center between mb16">
+      <div>
+        <div class="sm c-md mb4">Bonjour 👋</div>
+        <div class="syne bold xl c-hi" id="dash-name">Bienvenue</div>
+      </div>
+      <div class="sring" id="dash-sring">
+        <svg viewBox="0 0 80 80">
+          <circle fill="none" stroke="rgba(255,255,255,.08)" stroke-width="7" cx="40" cy="40" r="30"/>
+          <circle id="dash-ring" fill="none" stroke="var(--or2)" stroke-width="7" stroke-linecap="round" cx="40" cy="40" r="30" stroke-dasharray="188.5" stroke-dashoffset="188.5"/>
+        </svg>
+        <div class="sring-t"><div class="sring-n" id="dash-score-n">0</div><div class="sring-l">SCORE</div></div>
+      </div>
+    </div>
+    <div class="flex items-end g4 mb16">
+      <div class="hero-bal" id="dash-bal">0</div>
+      <div class="hero-cur">FCFA</div>
+    </div>
+    <div class="grid3" style="gap:8px">
+      <div class="card-dk p8" style="border-radius:var(--r12);border:1px solid rgba(255,255,255,.05)">
+        <div class="xs c-md mb4">Épargne</div>
+        <div class="syne bold c-or" id="dash-epg">0 F</div>
+      </div>
+      <div class="card-dk p8" style="border-radius:var(--r12);border:1px solid rgba(255,255,255,.05)">
+        <div class="xs c-md mb4">Prêt actif</div>
+        <div class="syne bold c-em" id="dash-pret">—</div>
+      </div>
+      <div class="card-dk p8" style="border-radius:var(--r12);border:1px solid rgba(255,255,255,.05)">
+        <div class="xs c-md mb4">Tier</div>
+        <div class="syne bold" id="dash-tier-txt">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sh mb8"><div class="sh-t">Actions rapides</div></div>
+  <div class="act-grid mb20">
+    <div class="act-btn" onclick="App.openMod('mod-depot')">
+      <div class="act-ico" style="background:rgba(46,204,113,.14)">💚</div>
+      <span class="act-lbl">Dépôt</span>
+    </div>
+    <div class="act-btn" onclick="App.openMod('mod-retrait')">
+      <div class="act-ico" style="background:rgba(231,76,60,.14)">🔴</div>
+      <span class="act-lbl">Retrait</span>
+    </div>
+    <div class="act-btn" onclick="App.openMod('mod-trf')">
+      <div class="act-ico" style="background:rgba(52,152,219,.14)">💙</div>
+      <span class="act-lbl">Transfert</span>
+    </div>
+    <div class="act-btn" onclick="App.nav('simulateurs')">
+      <div class="act-ico" style="background:rgba(212,160,23,.14)">📊</div>
+      <span class="act-lbl">Simuler</span>
+    </div>
+  </div>
+
+  <div class="sh mb8"><div class="sh-t">Aperçu financier</div><span class="chip" onclick="App.nav('wallet')">Tout voir</span></div>
+  <div class="stat-g mb20">
+    <div class="stat-p"><div style="font-size:1.1rem;margin-bottom:4px">💰</div><div class="stat-v" id="st-solde">0 F</div><div class="stat-l">Solde dispo</div></div>
+    <div class="stat-p"><div style="font-size:1.1rem;margin-bottom:4px">📈</div><div class="stat-v" id="st-epg">0 F</div><div class="stat-l">Épargne</div></div>
+    <div class="stat-p"><div style="font-size:1.1rem;margin-bottom:4px">🎓</div><div class="stat-v" id="st-fmt">0</div><div class="stat-l">Formations</div></div>
+    <div class="stat-p"><div style="font-size:1.1rem;margin-bottom:4px">💼</div><div class="stat-v" id="st-mss">0</div><div class="stat-l">Missions</div></div>
+  </div>
+
+  <div class="card mb16">
+    <div class="sh"><div class="sh-t">Activité 7 jours</div></div>
+    <div class="chart-w"><canvas id="ch-act" height="200"></canvas></div>
+  </div>
+
+  <div class="sh mb8"><div class="sh-t">Services GHP</div></div>
+  <div class="grid2 mb20">
+    <div class="card card-em pointer" onclick="App.nav('hopefund')">
+      <div class="flex center g8 mb8"><span style="font-size:1.5rem">💰</span><div><div class="syne bold c-em">HopeFund™</div><div class="xs c-md">Micro-crédit solidaire</div></div></div>
+      <div class="sm c-md">Jusqu'à 3 000 000 FCFA · 4-6%/an · 48h</div>
+    </div>
+    <div class="card card-or pointer" onclick="App.nav('hopeskills')">
+      <div class="flex center g8 mb8"><span style="font-size:1.5rem">🎓</span><div><div class="syne bold c-or">HopeSkills™</div><div class="xs c-md">Formations certifiantes</div></div></div>
+      <div class="sm c-md">7 formations · Badges blockchain</div>
+    </div>
+    <div class="card card-dk pointer" onclick="App.nav('tontines')">
+      <div class="flex center g8 mb8"><span style="font-size:1.5rem">👥</span><div><div class="syne bold c-hi">Tontines GHP</div><div class="xs c-md">Finance communautaire</div></div></div>
+      <div class="sm c-md">Rotation auto · Blockchain certifiée</div>
+    </div>
+    <div class="card card-dk pointer" onclick="App.nav('hopework')">
+      <div class="flex center g8 mb8"><span style="font-size:1.5rem">💼</span><div><div class="syne bold c-hi">HopeWork™</div><div class="xs c-md">Emplois & missions</div></div></div>
+      <div class="sm c-md">7 offres actives · Mobile Money</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sh"><div class="sh-t">Dernières transactions</div><span class="chip" onclick="App.nav('wallet')">Tout voir</span></div>
+    <div id="dash-txlist"><div class="tac p16 c-md sm">Aucune transaction</div></div>
+  </div>
+</div>
+
+<!-- ──────────────── WALLET ────────────────── -->
+<div class="sc" id="sc-wallet">
+  <div class="syne bold x2 mb16">💳 Portefeuille</div>
+  <div class="hero mb12">
+    <div class="sm c-md mb4">Solde total disponible</div>
+    <div class="flex items-end g4 mb20">
+      <div class="hero-bal" id="w-bal">0</div>
+      <div class="hero-cur">FCFA</div>
+    </div>
+    <div class="grid3" style="gap:8px">
+      <div style="text-align:center"><div class="xs c-md mb4">Orange Money</div><div class="syne bold c-or" id="w-om">0 F</div></div>
+      <div style="text-align:center"><div class="xs c-md mb4">Wave</div><div class="syne bold c-em" id="w-wave">0 F</div></div>
+      <div style="text-align:center"><div class="xs c-md mb4">MTN MoMo</div><div class="syne bold c-amber" id="w-mtn">0 F</div></div>
+    </div>
+  </div>
+  <div class="flex g8 mb16">
+    <button class="btn btn-em grow" onclick="App.openMod('mod-depot')">💚 Dépôt</button>
+    <button class="btn btn-out grow" onclick="App.openMod('mod-retrait')">🔴 Retrait</button>
+    <button class="btn btn-ghost grow" onclick="App.openMod('mod-trf')">💙 Transfert</button>
+  </div>
+  <div class="card mb12">
+    <div class="sh-t mb12">📱 Comptes Mobile Money</div>
+    <div id="w-mm-list"></div>
+  </div>
+  <div class="card">
+    <div class="sh mb8"><div class="sh-t">Historique</div></div>
+    <div class="flex g8 mb12 ovx" style="padding-bottom:4px">
+      <button class="chip act" onclick="UI.filterTx('all',this)">Toutes</button>
+      <button class="chip" onclick="UI.filterTx('depot',this)">Dépôts</button>
+      <button class="chip" onclick="UI.filterTx('retrait',this)">Retraits</button>
+      <button class="chip" onclick="UI.filterTx('transfert',this)">Transferts</button>
+      <button class="chip" onclick="UI.filterTx('pret',this)">Prêts</button>
+    </div>
+    <div id="w-txlist"><div class="tac p16 c-md sm">Aucune transaction</div></div>
+  </div>
+</div>
+
+<!-- ──────────────── TONTINES ────────────────── -->
+<div class="sc" id="sc-tontines">
+  <div class="flex center between mb16">
+    <div class="syne bold x2">👥 Tontines GHP</div>
+    <button class="btn btn-em btn-sm" onclick="App.openMod('mod-ton-cre')">＋ Créer</button>
+  </div>
+  <div class="card card-em mb16">
+    <div class="flex center g12"><span style="font-size:1.5rem">💚</span><div><div class="semi c-em">La Tontine GHP numérique c'est :</div><div class="sm c-md mt4">Rotation automatique · Paiement Mobile Money · Certification blockchain · Finance islamique ✓</div></div></div>
+  </div>
+  <div class="sh-t mb12">Vos tontines</div>
+  <div id="ton-list" class="grid2 mb16"><div class="c-md sm tac p16" style="grid-column:1/-1">Créez ou rejoignez une tontine GHP !</div></div>
+  <div class="div div-or"></div>
+  <div class="sh-t mb12 mt16">Tontines publiques à rejoindre</div>
+  <div id="ton-pub"></div>
+</div>
+
+<!-- ──────────────── HOPEFUND ────────────────── -->
+<div class="sc" id="sc-hopefund">
+  <div class="syne bold x2 mb16">💰 HopeFund™</div>
+  <div class="card card-or mb16">
+    <div class="flex center between mb8">
+      <div><div class="semi c-or">Votre éligibilité HopeScore™</div><div class="xs c-md mt4">Score minimum 40 pour commencer</div></div>
+      <span class="badge b-or" id="hf-tier">BRONZE</span>
+    </div>
+    <div class="prog mb8"><div class="prog-f prog-or" id="hf-prog" style="width:0%"></div></div>
+    <div class="flex between xs c-md">
+      <span>Score: <b class="c-or" id="hf-score">0</b>/100</span>
+      <span>Plafond: <b class="c-hi" id="hf-plaf">50 000 FCFA</b></span>
+    </div>
+  </div>
+  <div class="tabs mb16" id="hf-tabs">
+    <button class="tab act" onclick="UI.tab('hf',0,this)">Produits</button>
+    <button class="tab" onclick="UI.tab('hf',1,this)">Demander</button>
+    <button class="tab" onclick="UI.tab('hf',2,this)">Mes prêts</button>
+  </div>
+  <div class="tab-c act" id="hf-t0">
+    <div class="grid2">
+      <div class="card card-dk pointer" onclick="UI.selPretType('micro_credit',this)"><div class="badge b-em mb8">⚡ Micro-crédit</div><div class="syne bold lg c-hi">20K → 300K F</div><div class="sm c-md">5%/an · 24 mois max</div><div class="div"></div><div class="xs c-md">✓ 48h · Mobile Money · Score ≥ 40</div></div>
+      <div class="card card-dk pointer" onclick="UI.selPretType('developpement',this)"><div class="badge b-blue mb8">📈 Développement</div><div class="syne bold lg c-hi">300K → 1M F</div><div class="sm c-md">5%/an · 48 mois max</div><div class="div"></div><div class="xs c-md">✓ Score ≥ 60 · Garantie</div></div>
+      <div class="card card-dk pointer" onclick="UI.selPretType('tontine',this)"><div class="badge b-or mb8">👥 Tontine GHP</div><div class="syne bold lg c-hi">50K → 500K F</div><div class="sm c-md">4%/an · Rotation tontine</div><div class="div"></div><div class="xs c-md">✓ Membres GHP · Islamique ✓</div></div>
+      <div class="card card-dk pointer" onclick="UI.selPretType('urgent',this)"><div class="badge b-red mb8">🚨 Urgent 48h</div><div class="syne bold lg c-hi">10K → 150K F</div><div class="sm c-md">6%/an · 12 mois</div><div class="div"></div><div class="xs c-md">✓ Score ≥ 50 · Immédiat</div></div>
+    </div>
+  </div>
+  <div class="tab-c" id="hf-t1">
+    <div class="card">
+      <div class="fgrp mb12">
+        <label class="flbl">Type de prêt</label>
+        <select class="fsel" id="pret-type">
+          <option value="micro_credit">⚡ Micro-crédit (20K–300K FCFA)</option>
+          <option value="developpement">📈 Développement (300K–1M FCFA)</option>
+          <option value="tontine">👥 Tontine GHP (50K–500K FCFA)</option>
+          <option value="urgent">🚨 Urgent 48h (10K–150K FCFA)</option>
+        </select>
+      </div>
+      <div class="fgrp mb12">
+        <label class="flbl">Montant (FCFA)</label>
+        <input class="finp" type="number" id="pret-mnt" placeholder="Ex: 150 000" min="10000" step="1000" oninput="Calc.pretSim()">
+      </div>
+      <div class="fgrp mb12">
+        <label class="flbl">Durée : <span id="pret-dur-v" class="c-or">12 mois</span></label>
+        <input type="range" id="pret-dur" min="1" max="48" value="12" oninput="Calc.pretSim()">
+      </div>
+      <div class="fgrp mb12">
+        <label class="flbl">Objet du prêt</label>
+        <textarea class="ftxt" id="pret-obj" placeholder="Ex: Stock boutique, équipement, école enfants…" style="min-height:70px"></textarea>
+      </div>
+      <div class="fgrp mb16">
+        <label class="flbl">Garantie</label>
+        <select class="fsel" id="pret-gar">
+          <option value="mobile_money">📱 Mobile Money</option>
+          <option value="tontine">👥 Tontine GHP</option>
+          <option value="agent_ghp">🤝 Agent GHP terrain</option>
+        </select>
+      </div>
+      <div class="sim-res mb16" id="pret-sim" style="display:none">
+        <div class="sm semi c-md mb12">📊 Simulation instantanée</div>
+        <div class="grid3" style="gap:8px">
+          <div><div class="xs c-md">Mensualité</div><div class="syne bold c-or" id="sim-mens">—</div></div>
+          <div><div class="xs c-md">Total</div><div class="syne bold c-hi" id="sim-tot">—</div></div>
+          <div><div class="xs c-md">Intérêts</div><div class="syne bold c-md" id="sim-int">—</div></div>
+        </div>
+      </div>
+      <button class="btn btn-em btn-lg btn-full" onclick="Act.demanderPret()">💰 Soumettre la demande</button>
+    </div>
+  </div>
+  <div class="tab-c" id="hf-t2">
+    <div id="mes-prets"><div class="card card-dk tac p20"><div style="font-size:2rem;margin-bottom:8px">📋</div><div class="semi c-md">Aucun prêt actif</div><div class="xs c-dim mt4">Faites votre première demande !</div></div></div>
+  </div>
+</div>
+
+<!-- ──────────────── SIMULATEURS ────────────────── -->
+<div class="sc" id="sc-simulateurs">
+  <div class="syne bold x2 mb16">📊 Simulateurs Financiers</div>
+  <div class="tabs mb16" id="sim-tabs">
+    <button class="tab act" onclick="UI.tab('sim',0,this)">Prêt</button>
+    <button class="tab" onclick="UI.tab('sim',1,this)">Épargne</button>
+    <button class="tab" onclick="UI.tab('sim',2,this)">Assurance</button>
+    <button class="tab" onclick="UI.tab('sim',3,this)">Investir</button>
+  </div>
+  <!-- Tab Prêt -->
+  <div class="tab-c act" id="sim-t0">
+    <div class="grid2">
+      <div class="card">
+        <div class="semi c-or mb12">🏦 Paramètres</div>
+        <div class="fgrp mb12"><label class="flbl">Montant (FCFA)</label><input class="finp" type="number" id="sp-mnt" value="500000" oninput="Calc.pret()"></div>
+        <div class="fgrp mb12"><label class="flbl">Durée : <span id="sp-dur-v" class="c-or">24 mois</span></label><input type="range" id="sp-dur" min="1" max="84" value="24" oninput="Calc.pret()"></div>
+        <div class="fgrp mb12"><label class="flbl">Taux/an : <span id="sp-tx-v" class="c-or">5%</span></label><input type="range" id="sp-tx" min="1" max="20" value="5" oninput="Calc.pret()"></div>
+        <div class="fgrp mb12"><label class="flbl">Apport (FCFA)</label><input class="finp" type="number" id="sp-ap" value="0" oninput="Calc.pret()"></div>
+      </div>
+      <div>
+        <div class="sim-res mb12">
+          <div class="sm semi c-md mb12">Résultats</div>
+          <div class="flex between mb8"><span class="sm c-md">Mensualité</span><span class="syne bold c-or" id="rp-mens">—</span></div>
+          <div class="flex between mb8"><span class="sm c-md">Coût total</span><span class="syne bold c-hi" id="rp-tot">—</span></div>
+          <div class="flex between mb8"><span class="sm c-md">Intérêts</span><span class="syne bold c-md" id="rp-int">—</span></div>
+          <div class="flex between"><span class="sm c-md">Capital financé</span><span class="syne bold c-em" id="rp-cap">—</span></div>
+        </div>
+        <div class="card card-dk"><div class="chart-w"><canvas id="ch-pret"></canvas></div></div>
+      </div>
+    </div>
+    <div class="card mt12">
+      <div class="semi c-md mb12">Tableau d'amortissement</div>
+      <div class="ovx"><table class="amort-t"><thead><tr><th>Mois</th><th>Mensualité</th><th>Capital</th><th>Intérêts</th><th>Solde</th></tr></thead><tbody id="amort-body"></tbody></table></div>
+    </div>
+  </div>
+  <!-- Tab Épargne -->
+  <div class="tab-c" id="sim-t1">
+    <div class="grid2">
+      <div class="card">
+        <div class="semi c-or mb12">🌱 Paramètres</div>
+        <div class="fgrp mb12"><label class="flbl">Capital initial (FCFA)</label><input class="finp" type="number" id="se-cap" value="100000" oninput="Calc.epg()"></div>
+        <div class="fgrp mb12"><label class="flbl">Versement mensuel (FCFA)</label><input class="finp" type="number" id="se-vers" value="10000" oninput="Calc.epg()"></div>
+        <div class="fgrp mb12"><label class="flbl">Durée : <span id="se-dur-v" class="c-or">36 mois</span></label><input type="range" id="se-dur" min="6" max="120" value="36" oninput="Calc.epg()"></div>
+        <div class="fgrp mb12"><label class="flbl">Type d'épargne</label>
+          <select class="fsel" id="se-type" onchange="Calc.epg()">
+            <option value="0.03">Standard GHP (3%/an)</option>
+            <option value="0.05">Solidaire GHP (5%/an)</option>
+            <option value="0.07">Tontine GHP (7%/an)</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <div class="sim-res mb12">
+          <div class="xs c-md mb4">Capital final estimé</div>
+          <div class="sim-big" id="re-final">—</div>
+          <div class="xs c-md mt4 mb12">FCFA</div>
+          <div class="flex between mb8"><span class="sm c-md">Total versé</span><span class="syne bold c-hi" id="re-vers">—</span></div>
+          <div class="flex between"><span class="sm c-md">Gain net</span><span class="syne bold c-green" id="re-gain">—</span></div>
+        </div>
+        <div class="card card-dk"><div class="chart-w"><canvas id="ch-epg"></canvas></div></div>
+      </div>
+    </div>
+  </div>
+  <!-- Tab Assurance -->
+  <div class="tab-c" id="sim-t2">
+    <div class="grid2">
+      <div class="card">
+        <div class="semi c-or mb12">🛡️ Paramètres</div>
+        <div class="fgrp mb12"><label class="flbl">Capital assuré (FCFA)</label><input class="finp" type="number" id="sa-cap" value="2000000" oninput="Calc.ass()"></div>
+        <div class="fgrp mb12"><label class="flbl">Type</label>
+          <select class="fsel" id="sa-type" onchange="Calc.ass()">
+            <option value="0.02">Vie (2%/an)</option>
+            <option value="0.025">Santé (2,5%/an)</option>
+            <option value="0.015">Professionnelle (1,5%/an)</option>
+            <option value="0.035">Complète (3,5%/an)</option>
+          </select>
+        </div>
+        <div class="fgrp mb12"><label class="flbl">Durée : <span id="sa-dur-v" class="c-or">3 ans</span></label><input type="range" id="sa-dur" min="1" max="10" value="3" oninput="Calc.ass()"></div>
+      </div>
+      <div class="sim-res">
+        <div class="semi c-md mb12">Votre protection</div>
+        <div class="flex between mb8"><span class="sm c-md">Prime annuelle</span><span class="syne bold c-or" id="ra-ann">—</span></div>
+        <div class="flex between mb8"><span class="sm c-md">Prime mensuelle</span><span class="syne bold c-hi" id="ra-mens">—</span></div>
+        <div class="flex between mb8"><span class="sm c-md">Cotisation totale</span><span class="syne bold c-md" id="ra-tot">—</span></div>
+        <div class="div"></div>
+        <div class="xs c-md">✓ Mutuelles locales reconnues</div>
+        <div class="xs c-md mt4">✓ Remboursement sinistre 72h</div>
+        <div class="xs c-md mt4">✓ Compatible finance islamique</div>
+      </div>
+    </div>
+  </div>
+  <!-- Tab Investissement -->
+  <div class="tab-c" id="sim-t3">
+    <div class="grid2">
+      <div class="card">
+        <div class="semi c-or mb12">🌾 Investissement vert</div>
+        <div class="fgrp mb12"><label class="flbl">Montant (FCFA)</label><input class="finp" type="number" id="si-mnt" value="1000000" oninput="Calc.inv()"></div>
+        <div class="fgrp mb12"><label class="flbl">Secteur</label>
+          <select class="fsel" id="si-sec" onchange="Calc.inv()">
+            <option value="0.07">🌾 Agriculture (7%/an)</option>
+            <option value="0.09">☀️ Solaire (9%/an)</option>
+            <option value="0.06">💧 Eau (6%/an)</option>
+            <option value="0.08">🌳 Agroforesterie (8%/an)</option>
+            <option value="0.10">💡 Tech verte (10%/an)</option>
+          </select>
+        </div>
+        <div class="fgrp mb12"><label class="flbl">Horizon : <span id="si-dur-v" class="c-or">5 ans</span></label><input type="range" id="si-dur" min="1" max="20" value="5" oninput="Calc.inv()"></div>
+      </div>
+      <div>
+        <div class="sim-res mb12">
+          <div class="xs c-md mb4">Valeur finale estimée</div>
+          <div class="sim-big" id="ri-fin">—</div>
+          <div class="xs c-md mt4 mb12">FCFA</div>
+          <div class="flex between mb8"><span class="sm c-md">Plus-value</span><span class="syne bold c-green" id="ri-gain">—</span></div>
+          <div class="flex between mb8"><span class="sm c-md">ROI total</span><span class="syne bold c-or" id="ri-roi">—</span></div>
+          <div class="flex between"><span class="sm c-md">Doublement</span><span class="syne bold c-em" id="ri-dbl">—</span></div>
+        </div>
+        <div class="card card-dk"><div class="chart-w"><canvas id="ch-inv"></canvas></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ──────────────── ÉPARGNE ────────────────── -->
+<div class="sc" id="sc-epargne">
+  <div class="syne bold x2 mb16">🌱 Épargne GHP</div>
+  <div class="grid2 mb16">
+    <div class="card card-em pointer" onclick="App.openMod('mod-epg','standard')"><div class="badge b-em mb8">Standard</div><div class="syne bold x3 c-em">3%</div><div class="sm c-md">par an · Retraits flexibles</div></div>
+    <div class="card card-or pointer" onclick="App.openMod('mod-epg','solidaire')"><div class="badge b-or mb8">Solidaire</div><div class="syne bold x3 c-or">5%</div><div class="sm c-md">par an · Impact communautaire</div></div>
+    <div class="card card-dk pointer" onclick="App.openMod('mod-epg','tontine')"><div class="badge b-dim mb8">Tontine GHP</div><div class="syne bold x3 c-hi">7%</div><div class="sm c-md">par an · Cycle 6-12 mois</div></div>
+    <div class="card card-dk" style="opacity:.55"><div class="badge b-amber mb8">Vert (bientôt)</div><div class="syne bold x3 c-amber">8%</div><div class="sm c-md">par an · Impact certifié</div></div>
+  </div>
+  <div class="card"><div class="sh-t mb12">💰 Mon épargne</div><div id="epg-status"><div class="tac p20 c-md sm">🌱 Ouvrez votre premier compte épargne</div></div></div>
+</div>
+
+<!-- ──────────────── ASSURANCE ────────────────── -->
+<div class="sc" id="sc-assurance">
+  <div class="syne bold x2 mb16">🛡️ Assurance Micro</div>
+  <div class="grid2 mb16">
+    <div class="card card-dk pointer" onclick="App.openMod('mod-ass','vie')"><div style="font-size:2rem;margin-bottom:8px">💝</div><div class="syne bold c-hi">Vie</div><div class="sm c-md">2%/an · dès 1 600 F/mois</div></div>
+    <div class="card card-dk pointer" onclick="App.openMod('mod-ass','sante')"><div style="font-size:2rem;margin-bottom:8px">🏥</div><div class="syne bold c-hi">Santé</div><div class="sm c-md">2,5%/an · dès 2 000 F/mois</div></div>
+    <div class="card card-dk pointer" onclick="App.openMod('mod-ass','pro')"><div style="font-size:2rem;margin-bottom:8px">💼</div><div class="syne bold c-hi">Professionnelle</div><div class="sm c-md">1,5%/an · dès 1 250 F/mois</div></div>
+    <div class="card card-dk pointer" onclick="App.openMod('mod-ass','complete')"><div style="font-size:2rem;margin-bottom:8px">⭐</div><div class="syne bold c-hi">Complète</div><div class="sm c-md">3,5%/an · dès 2 900 F/mois</div></div>
+  </div>
+  <div class="card"><div class="sh-t mb12">Mes assurances actives</div><div id="ass-list"><div class="tac p16 c-dim sm">Aucune assurance souscrite</div></div></div>
+</div>
+
+<!-- ──────────────── HOPESKILLS ────────────────── -->
+<div class="sc" id="sc-hopeskills">
+  <div class="flex center between mb12"><div class="syne bold x2">🎓 HopeSkills™</div><span class="badge b-or">+Points HopeScore</span></div>
+  <div class="card card-or mb16"><div class="flex center g12"><span style="font-size:1.5rem">🏅</span><div><div class="semi c-or">Certifications blockchain Polygon</div><div class="sm c-md mt4">Chaque formation rapporte des points HopeScore™ et un badge certifié</div></div></div></div>
+  <div class="flex g8 mb12 ovx" style="padding-bottom:4px">
+    <button class="chip act" onclick="UI.filtFmt('all',this)">Toutes</button>
+    <button class="chip" onclick="UI.filtFmt('finance',this)">Finance</button>
+    <button class="chip" onclick="UI.filtFmt('entrepreneuriat',this)">Business</button>
+    <button class="chip" onclick="UI.filtFmt('digital',this)">Digital</button>
+    <button class="chip" onclick="UI.filtFmt('agriculture',this)">Agriculture</button>
+    <button class="chip" onclick="UI.filtFmt('tech',this)">Tech & IA</button>
+    <button class="chip" onclick="UI.filtFmt('sante',this)">Santé</button>
+  </div>
+  <div id="fmt-grid" class="grid2"></div>
+</div>
+
+<!-- ──────────────── HOPEWORK ────────────────── -->
+<div class="sc" id="sc-hopework">
+  <div class="flex center between mb12"><div class="syne bold x2">💼 HopeWork™</div><button class="btn btn-out btn-sm" onclick="App.openMod('mod-recruter')">Recruter</button></div>
+  <div class="flex g8 mb12 ovx" style="padding-bottom:4px">
+    <button class="chip act" onclick="UI.filtJob('all',this)">Toutes</button>
+    <button class="chip" onclick="UI.filtJob('freelance',this)">Freelance</button>
+    <button class="chip" onclick="UI.filtJob('cdi',this)">CDI</button>
+    <button class="chip" onclick="UI.filtJob('cdd',this)">CDD</button>
+    <button class="chip" onclick="UI.filtJob('finance',this)">Finance</button>
+    <button class="chip" onclick="UI.filtJob('digital',this)">Digital</button>
+    <button class="chip" onclick="UI.filtJob('agriculture',this)">Agriculture</button>
+  </div>
+  <div id="job-grid" class="grid2"></div>
+</div>
+
+<!-- ──────────────── BLOCKCHAIN ────────────────── -->
+<div class="sc" id="sc-blockchain">
+  <div class="syne bold x2 mb16">⛓️ Blockchain TINI</div>
+  <div class="stat-g mb16">
+    <div class="stat-p"><div style="font-size:1.1rem;margin-bottom:4px">⛓️</div><div class="stat-v" id="bc-blocs">—</div><div class="stat-l">Blocs minés</div></div>
+    <div class="stat-p"><div style="font-size:1.1rem;margin-bottom:4px">📝</div><div class="stat-v" id="bc-txs">—</div><div class="stat-l">Transactions</div></div>
+    <div class="stat-p"><div style="font-size:1.1rem;margin-bottom:4px">⚡</div><div class="stat-v" id="bc-diff">—</div><div class="stat-l">Difficulté</div></div>
+    <div class="stat-p"><div style="font-size:1.1rem;margin-bottom:4px">✅</div><div class="stat-v c-green">OK</div><div class="stat-l">Intégrité</div></div>
+  </div>
+  <div class="card mb12">
+    <div class="semi c-or mb12">🔢 Moteur Fibonacci × Euler × SHA3</div>
+    <div class="fib-box mb12">F(n) = F(n-1) + F(n-2)  ·  K_fib = Fh(n) × Fv(m)  ·  e^(iπ)+1 = 0  ·  H = SHA3-512 ⊕ F(n)</div>
+    <div class="flex g8 center mb12">
+      <input class="finp" type="number" id="fib-n" value="20" min="1" max="80" style="max-width:110px">
+      <button class="btn btn-out btn-sm" onclick="BC.calcFib()">Calculer F(n)</button>
+    </div>
+    <div id="fib-res" class="fib-box" style="display:none"></div>
+  </div>
+  <div class="card mb12">
+    <div class="flex center between mb12">
+      <div class="semi c-hi">Derniers blocs</div>
+      <button class="btn btn-or btn-sm" id="mine-btn" onclick="BC.mine()">⚡ Miner</button>
+    </div>
+    <div id="bl-list" class="flex col g10"></div>
+  </div>
+  <div class="card">
+    <div class="semi mb12">📊 Activité blockchain</div>
+    <div class="chart-w"><canvas id="ch-bc"></canvas></div>
+  </div>
+</div>
+
+<!-- ──────────────── PROFIL / TINI ────────────────── -->
+<div class="sc" id="sc-profil">
+  <div class="syne bold x2 mb16">🔐 Identité TINI</div>
+  <div class="tini-card mb16">
+    <div class="rel" style="z-index:1">
+      <div class="flex center g12 mb16">
+        <div class="ava" style="width:60px;height:60px;font-size:1.3rem;border:2px solid var(--or)" id="pf-ava">?</div>
+        <div class="grow">
+          <div class="syne bold xl c-hi" id="pf-name">—</div>
+          <div class="sm c-md" id="pf-ville">Dakar, Sénégal</div>
+          <div class="xs c-dim" id="pf-phone">—</div>
+        </div>
+        <span class="badge" id="pf-tier">—</span>
+      </div>
+      <div class="mb12">
+        <div class="xs c-md mb4">Identifiant TINI (cliquez pour copier)</div>
+        <div class="tini-id" id="pf-tini-id" onclick="Act.copyTINI()">—</div>
+      </div>
+      <div class="grid3 mb16" style="gap:8px;text-align:center">
+        <div><div class="syne bold x2 c-or" id="pf-score">0</div><div class="xs c-md">HopeScore™</div></div>
+        <div><div class="syne bold x2 c-em" id="pf-fmts">0</div><div class="xs c-md">Formations</div></div>
+        <div><div class="syne bold x2 c-hi" id="pf-nrg">0.0</div><div class="xs c-md">E=mc²</div></div>
+      </div>
+      <div class="fib-box" id="pf-math">k1=φ · k2=e · K_fib=Fh×Fv · K_final=K_fib×e^(iπ) · H=SHA3⊕F(n)</div>
+    </div>
+  </div>
+  <div class="card mb16">
+    <div class="flex between center mb8"><div class="semi">Progression HopeScore™</div><span class="badge" id="pf-tier2">—</span></div>
+    <div class="prog mb8"><div class="prog-f prog-or" id="pf-prog" style="width:0%"></div></div>
+    <div class="flex between xs c-dim mb16"><span>0</span><span>BRONZE→40</span><span>SILVER→60</span><span>GOLD→80</span></div>
+    <div class="semi sm mb8">Comment améliorer votre score :</div>
+    <div class="flex col g6">
+      <div class="flex center g8"><span class="badge b-or">+20</span><span class="sm">Terminer une formation HopeSkills™</span></div>
+      <div class="flex center g8"><span class="badge b-em">+10</span><span class="sm">Rembourser une échéance à temps</span></div>
+      <div class="flex center g8"><span class="badge b-blue">+5</span><span class="sm">Premier dépôt Mobile Money</span></div>
+      <div class="flex center g8"><span class="badge b-dim">+3</span><span class="sm">Envoyer une candidature HopeWork™</span></div>
+    </div>
+  </div>
+  <div class="card mb16">
+    <button class="nav-it w100" onclick="App.nav('hopeskills')"><span class="ico">🎓</span> Mes formations & badges <span style="margin-left:auto;color:var(--dim)">›</span></button>
+    <button class="nav-it w100" onclick="App.nav('wallet')"><span class="ico">📜</span> Historique financier <span style="margin-left:auto;color:var(--dim)">›</span></button>
+    <button class="nav-it w100" onclick="App.nav('blockchain')"><span class="ico">⛓️</span> Blockchain & identité <span style="margin-left:auto;color:var(--dim)">›</span></button>
+    <button class="nav-it w100" onclick="App.dialUSSD()"><span class="ico">📞</span> Accès USSD <span class="mono c-em" style="margin:0 6px">*785#</span><span style="margin-left:auto;color:var(--dim)">›</span></button>
+    <button class="nav-it w100" onclick="App.openMod('mod-settings')"><span class="ico">⚙️</span> Paramètres <span style="margin-left:auto;color:var(--dim)">›</span></button>
+    <button class="nav-it w100 c-red" onclick="Act.logout()"><span class="ico">🚪</span> Se déconnecter</button>
+  </div>
+  <div class="tac p16"><div class="mono xs c-dim">CAFÉS-FINANCE × GHP · TINI/SYSTEME v1.0 · Phase Pilote 2025</div><div class="mono xs c-em mt4">Thiaw Consulting TCS · Dakar · *785#</div></div>
+</div>
+
+</main><!-- /main -->
+
+<!-- ═══ BOTTOM NAV ════════════════════════════════════════ -->
+<nav class="botnav">
+  <div class="bn-inner">
+    <button class="bn-it act" data-sc="dashboard"  onclick="App.nav('dashboard')"><span class="bn-ico">🏠</span><span class="bn-lbl">Accueil</span></button>
+    <button class="bn-it"     data-sc="wallet"      onclick="App.nav('wallet')"><span class="bn-ico">💳</span><span class="bn-lbl">Wallet</span></button>
+    <button class="bn-it"     data-sc="hopefund"    onclick="App.nav('hopefund')"><span class="bn-ico">💰</span><span class="bn-lbl">HopeFund</span></button>
+    <button class="bn-it"     data-sc="hopeskills"  onclick="App.nav('hopeskills')"><span class="bn-ico">🎓</span><span class="bn-lbl">Skills</span></button>
+    <button class="bn-it"     data-sc="profil"      onclick="App.nav('profil')"><span class="bn-ico">🔐</span><span class="bn-lbl">Profil</span></button>
+  </div>
+</nav>
+
+<!-- ═══ TOASTS ════════════════════════════════════════════ -->
+<div class="toast-s" id="toast-s"></div>
+
+<!-- ═══ MODALS ════════════════════════════════════════════ -->
+
+<!-- Inscription -->
+<div class="mod-ov" id="mod-ins">
+  <div class="mod-box" style="max-width:500px">
+    <div class="mod-h"><div class="mod-t">🔐 Créer votre identité TINI</div></div>
+    <div class="grid2 mb12">
+      <div class="fgrp"><label class="flbl">Prénom *</label><input class="finp" id="ins-prenom" placeholder="Mamadou" autocomplete="given-name"></div>
+      <div class="fgrp"><label class="flbl">Nom *</label><input class="finp" id="ins-nom" placeholder="Diallo" autocomplete="family-name"></div>
+    </div>
+    <div class="fgrp mb12"><label class="flbl">Téléphone * (avec indicatif)</label><input class="finp" id="ins-phone" type="tel" placeholder="+221 77 XXX XX XX" autocomplete="tel"></div>
+    <div class="fgrp mb12"><label class="flbl">Ville</label>
+      <select class="fsel" id="ins-ville">
+        <option>Dakar</option><option>Bamako</option><option>Abidjan</option><option>Thiès</option>
+        <option>Touba</option><option>Conakry</option><option>Lomé</option><option>Cotonou</option><option>Ouagadougou</option>
+      </select>
+    </div>
+    <div class="fgrp mb12"><label class="flbl">Type de compte</label>
+      <select class="fsel" id="ins-type">
+        <option value="individuel">👤 Individuel</option>
+        <option value="tontine">👥 Tontine / Groupe</option>
+        <option value="jeune">🎓 Jeune 18-35 ans</option>
+        <option value="diaspora">✈️ Diaspora</option>
+      </select>
+    </div>
+    <div class="fgrp mb12"><label class="flbl">Dépôt initial (FCFA)</label><input class="finp" id="ins-depot" type="number" placeholder="0" min="0" step="500"></div>
+    <div class="fgrp mb16"><label class="flbl">Code d'accès (6 chiffres)</label><input class="finp" id="ins-pin" type="password" placeholder="••••••" maxlength="6"></div>
+    <button class="btn btn-or btn-lg btn-full" onclick="Act.creerCompte()">⚡ Générer mon identité TINI</button>
+    <div class="div"></div>
+    <button class="btn btn-ghost btn-full" onclick="UI.switchMod('mod-ins','mod-conn')">Déjà membre ? Se connecter</button>
+  </div>
+</div>
+
+<!-- Connexion -->
+<div class="mod-ov" id="mod-conn">
+  <div class="mod-box" style="max-width:380px">
+    <div class="mod-h"><div class="mod-t">🔑 Connexion CAFÉS-FINANCE</div></div>
+    <div class="fgrp mb12"><label class="flbl">Téléphone</label><input class="finp" id="conn-phone" type="tel" placeholder="+221 77 XXX XX XX"></div>
+    <div class="fgrp mb16"><label class="flbl">Code d'accès</label><input class="finp" id="conn-pin" type="password" placeholder="••••••" maxlength="6" onkeyup="if(event.key==='Enter')Act.connecter()"></div>
+    <button class="btn btn-or btn-lg btn-full" onclick="Act.connecter()">Se connecter</button>
+    <div class="div"></div>
+    <button class="btn btn-ghost btn-full" onclick="UI.switchMod('mod-conn','mod-ins')">Nouveau membre ? Créer un compte</button>
+  </div>
+</div>
+
+<!-- Dépôt -->
+<div class="mod-ov" id="mod-depot">
+  <div class="mod-box">
+    <div class="mod-h"><div class="mod-t">💚 Dépôt Mobile Money</div><button class="mod-cl" onclick="App.closeMod('mod-depot')">✕</button></div>
+    <div class="fgrp mb12"><label class="flbl">Canal</label>
+      <select class="fsel" id="dep-canal">
+        <option value="orange_money">🟠 Orange Money</option>
+        <option value="wave">🌊 Wave</option>
+        <option value="mtn">🟡 MTN MoMo</option>
+        <option value="especes">💵 Espèces (via agent GHP)</option>
+      </select>
+    </div>
+    <div class="fgrp mb12"><label class="flbl">Montant (FCFA)</label><input class="finp" id="dep-mnt" type="number" placeholder="Ex: 25 000" min="100"></div>
+    <div class="flex wrap g8 mb16">
+      <button class="chip" onclick="document.getElementById('dep-mnt').value=5000">5 000</button>
+      <button class="chip" onclick="document.getElementById('dep-mnt').value=10000">10 000</button>
+      <button class="chip" onclick="document.getElementById('dep-mnt').value=25000">25 000</button>
+      <button class="chip" onclick="document.getElementById('dep-mnt').value=50000">50 000</button>
+      <button class="chip" onclick="document.getElementById('dep-mnt').value=100000">100 000</button>
+    </div>
+    <button class="btn btn-em btn-lg btn-full" onclick="Act.depot()">💚 Confirmer le dépôt</button>
+  </div>
+</div>
+
+<!-- Retrait -->
+<div class="mod-ov" id="mod-retrait">
+  <div class="mod-box">
+    <div class="mod-h"><div class="mod-t">🔴 Retrait</div><button class="mod-cl" onclick="App.closeMod('mod-retrait')">✕</button></div>
+    <div class="fgrp mb12"><label class="flbl">Canal</label>
+      <select class="fsel" id="ret-canal">
+        <option value="orange_money">🟠 Orange Money</option>
+        <option value="wave">🌊 Wave</option>
+        <option value="mtn">🟡 MTN MoMo</option>
+      </select>
+    </div>
+    <div class="fgrp mb12"><label class="flbl">Numéro destinataire</label><input class="finp" id="ret-num" type="tel" placeholder="+221 77 XXX XX XX"></div>
+    <div class="fgrp mb16"><label class="flbl">Montant (FCFA)</label><input class="finp" id="ret-mnt" type="number" placeholder="Minimum 500" min="500"><div class="xs c-md mt4">Solde : <b class="c-or" id="ret-solde-d">0 F</b></div></div>
+    <button class="btn btn-red btn-lg btn-full" onclick="Act.retrait()">🔴 Confirmer le retrait</button>
+  </div>
+</div>
+
+<!-- Transfert -->
+<div class="mod-ov" id="mod-trf">
+  <div class="mod-box">
+    <div class="mod-h"><div class="mod-t">💙 Transfert GHP</div><button class="mod-cl" onclick="App.closeMod('mod-trf')">✕</button></div>
+    <div class="fgrp mb12"><label class="flbl">Destinataire (tél. ou ID TINI)</label><input class="finp" id="trf-dest" placeholder="+221 77 XXX XX XX ou TINI-GHP-…"></div>
+    <div class="fgrp mb12"><label class="flbl">Montant (FCFA)</label><input class="finp" id="trf-mnt" type="number" placeholder="Minimum 100" min="100"></div>
+    <div class="fgrp mb16"><label class="flbl">Message (optionnel)</label><input class="finp" id="trf-msg" placeholder="Tontine du mois · Loyer · Famille…"></div>
+    <button class="btn btn-or btn-lg btn-full" onclick="Act.transfert()">💙 Envoyer</button>
+  </div>
+</div>
+
+<!-- Notifications -->
+<div class="mod-ov" id="mod-notif">
+  <div class="mod-box">
+    <div class="mod-h"><div class="mod-t">🔔 Notifications</div><button class="mod-cl" onclick="App.closeMod('mod-notif')">✕</button></div>
+    <div id="notif-list"></div>
+  </div>
+</div>
+
+<!-- Créer Tontine -->
+<div class="mod-ov" id="mod-ton-cre">
+  <div class="mod-box">
+    <div class="mod-h"><div class="mod-t">👥 Créer une tontine</div><button class="mod-cl" onclick="App.closeMod('mod-ton-cre')">✕</button></div>
+    <div class="fgrp mb12"><label class="flbl">Nom de la tontine</label><input class="finp" id="ton-nom" placeholder="Ex: Tontine Quartier Biscuiterie"></div>
+    <div class="fgrp mb12"><label class="flbl">Cotisation mensuelle (FCFA)</label><input class="finp" id="ton-cot" type="number" placeholder="Ex: 10 000" min="1000"></div>
+    <div class="fgrp mb12"><label class="flbl">Membres max</label><input class="finp" id="ton-max" type="number" value="12" min="3" max="50"></div>
+    <div class="fgrp mb16"><label class="flbl">Fréquence</label><select class="fsel" id="ton-freq"><option value="mensuel">Mensuelle</option><option value="hebdo">Hebdomadaire</option></select></div>
+    <button class="btn btn-em btn-lg btn-full" onclick="Act.creerTontine()">🌟 Créer la tontine</button>
+  </div>
+</div>
+
+<!-- Épargne -->
+<div class="mod-ov" id="mod-epg">
+  <div class="mod-box">
+    <div class="mod-h"><div class="mod-t" id="mod-epg-t">🌱 Ouvrir un compte épargne</div><button class="mod-cl" onclick="App.closeMod('mod-epg')">✕</button></div>
+    <div class="fgrp mb12"><label class="flbl">Montant initial (FCFA)</label><input class="finp" id="epg-mnt" type="number" placeholder="Ex: 50 000" min="1000"></div>
+    <div class="fgrp mb16"><label class="flbl">Type</label><input class="finp" id="epg-type-v" readonly style="background:var(--nuit4)"></div>
+    <div class="sim-res mb16" id="epg-sim-res"><div class="xs c-md">Entrez un montant pour simuler</div></div>
+    <button class="btn btn-em btn-lg btn-full" onclick="Act.ouvrirEpargne()">✅ Confirmer l'ouverture</button>
+  </div>
+</div>
+
+<!-- Assurance -->
+<div class="mod-ov" id="mod-ass">
+  <div class="mod-box">
+    <div class="mod-h"><div class="mod-t" id="mod-ass-t">🛡️ Souscrire une assurance</div><button class="mod-cl" onclick="App.closeMod('mod-ass')">✕</button></div>
+    <div class="fgrp mb12"><label class="flbl">Capital assuré (FCFA)</label><input class="finp" id="ass-cap" type="number" placeholder="Ex: 1 000 000" min="100000" oninput="Act.simAss()"></div>
+    <div class="fgrp mb16"><label class="flbl">Type sélectionné</label><input class="finp" id="ass-type-v" readonly style="background:var(--nuit4)"></div>
+    <div class="sim-res mb16" id="ass-sim-res"><div class="xs c-md">Entrez le capital pour simuler</div></div>
+    <button class="btn btn-or btn-lg btn-full" onclick="Act.souscrireAss()">🛡️ Souscrire</button>
+  </div>
+</div>
+
+<!-- Recruter -->
+<div class="mod-ov" id="mod-recruter">
+  <div class="mod-box">
+    <div class="mod-h"><div class="mod-t">📢 Publier une offre</div><button class="mod-cl" onclick="App.closeMod('mod-recruter')">✕</button></div>
+    <div class="fgrp mb12"><label class="flbl">Titre du poste</label><input class="finp" id="rec-titre" placeholder="Ex: Comptable Boutique"></div>
+    <div class="fgrp mb12"><label class="flbl">Description courte</label><textarea class="ftxt" id="rec-desc" placeholder="Vos besoins en 2-3 phrases" style="min-height:70px"></textarea></div>
+    <div class="grid2 mb12">
+      <div class="fgrp"><label class="flbl">Budget min (F)</label><input class="finp" id="rec-min" type="number" placeholder="25000"></div>
+      <div class="fgrp"><label class="flbl">Budget max (F)</label><input class="finp" id="rec-max" type="number" placeholder="50000"></div>
+    </div>
+    <div class="fgrp mb12"><label class="flbl">Ville</label><select class="fsel" id="rec-ville"><option>Dakar</option><option>Bamako</option><option>Abidjan</option><option>Thiès</option><option>Conakry</option></select></div>
+    <div class="fgrp mb16"><label class="flbl">Paiement via</label>
+      <select class="fsel" id="rec-pay">
+        <option value="wave">🌊 Wave</option>
+        <option value="orange_money">🟠 Orange Money</option>
+        <option value="mtn">🟡 MTN MoMo</option>
+      </select>
+    </div>
+    <button class="btn btn-or btn-lg btn-full" onclick="Act.publierOffre()">📢 Publier l'offre</button>
+  </div>
+</div>
+
+<!-- Settings -->
+<div class="mod-ov" id="mod-settings">
+  <div class="mod-box">
+    <div class="mod-h"><div class="mod-t">⚙️ Paramètres</div><button class="mod-cl" onclick="App.closeMod('mod-settings')">✕</button></div>
+    <div class="flex col g12">
+      <div class="flex center between py8" style="border-bottom:1px solid rgba(255,255,255,.06)">
+        <div><div class="semi">Notifications</div><div class="xs c-md">SMS, USSD, push</div></div>
+        <div class="badge b-em">Activé</div>
+      </div>
+      <div class="flex center between py8" style="border-bottom:1px solid rgba(255,255,255,.06)">
+        <div><div class="semi">Mode hors ligne</div><div class="xs c-md">Sync auto dès réseau</div></div>
+        <div class="badge b-em">Activé</div>
+      </div>
+      <div class="flex center between py8">
+        <div><div class="semi">Version</div><div class="xs c-md mono c-em">TINI/SYSTEME v1.0 · Phase Pilote</div></div>
+      </div>
+      <button class="btn btn-em btn-full mt8" onclick="Act.exportData()">📤 Exporter mes données</button>
+      <button class="btn btn-red btn-full" onclick="Act.resetApp()">🗑️ Effacer les données locales</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT COMPLET
+     ═══════════════════════════════════════════ -->
+
+<!-- ════════════════════════════════════════════════════════
+     SERVICE WORKER REGISTRATION + APP BOOT
+     ════════════════════════════════════════════════════════ -->
+<script src="./js/app.js"></script>
+
+</body>
+</html>
